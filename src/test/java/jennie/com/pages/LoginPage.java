@@ -30,7 +30,7 @@ public class LoginPage {
         Assert.assertTrue(driver.findElement(errMsg).isDisplayed(),"Fail, error message is not displayed");
         Assert.assertEquals(driver.findElement(errMsg).getText(), "Invalid email or password");
     }
-    public void login (String email, String password) {
+    public DashboardPage login (String email, String password) {
         driver.get(URL);
         enterEmail(email);
         enterPassword(password);
@@ -39,6 +39,7 @@ public class LoginPage {
         WebUI.sleep(2);
         WebUI.checkElementExist(driver, "//li[@class='menu-item-dashboard active']/a//span");
         Assert.assertEquals(driver.findElement(By.xpath("//li[@class='menu-item-dashboard active']/a//span")).getText(),"Dashboard");
+        return new DashboardPage(driver);
     }
 
     public void loginFail (String email, String password) {

@@ -15,26 +15,22 @@ public class CustomerTest extends BaseTest {
     public void addNewCustomer() {
         //login
         loginPage = new LoginPage(driver);
-        loginPage.login("admin@example.com", "123456");
+        //open Dashboard page
+        dashboardPage = loginPage.login("admin@example.com", "123456");
         //open Customer page
-        dashboardPage = new DashboardPage(driver);
-        dashboardPage.openCustomerPage();
+        customerPage = dashboardPage.openCustomerPage();
         //add new customer
-        customerPage = new CustomerPage(driver);
         customerPage.addNewCustomer();
     }
 
     @Test
     public void verifyAndDeleteCustomer () {
         loginPage = new LoginPage(driver);
-        loginPage.login("admin@example.com", "123456");
-
+        //open dashboard page
+        dashboardPage = loginPage.login("admin@example.com", "123456");
         //open Customer page
-        dashboardPage = new DashboardPage(driver);
-        dashboardPage.openCustomerPage();
-
+        customerPage = dashboardPage.openCustomerPage();
         //verify and delete customer
-        customerPage = new CustomerPage(driver);
         customerPage.verifyCustomer();
         customerPage.deleteCustomer();
 

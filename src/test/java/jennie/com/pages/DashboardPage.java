@@ -13,9 +13,10 @@ public class DashboardPage {
         driver = _driver;
     }
 
-    public void openCustomerPage(){
+    public CustomerPage openCustomerPage(){
         WebUI.waitForPageLoaded(driver);
         driver.findElement(menuCustomer).click();
         WebUI.sleep(1);
+        return new CustomerPage(driver);
     }
 }
