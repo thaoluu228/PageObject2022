@@ -9,6 +9,7 @@ public class DashboardPage {
     private WebDriver driver;
 
     By menuCustomer = By.xpath("//span[normalize-space()='Customers']");
+    By menuProject = By.xpath("//li[@class='menu-item-projects']//a");
     public DashboardPage (WebDriver _driver){
         driver = _driver;
     }
@@ -18,5 +19,12 @@ public class DashboardPage {
         driver.findElement(menuCustomer).click();
         WebUI.sleep(1);
         return new CustomerPage(driver);
+    }
+
+    public ProjectPage openProjectPage(){
+        WebUI.waitForPageLoaded(driver);
+        driver.findElement(menuProject).click();
+        WebUI.sleep(1);
+        return new ProjectPage(driver);
     }
 }
