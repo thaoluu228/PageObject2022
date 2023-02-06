@@ -23,7 +23,7 @@ public class CustomerTest extends BaseTest {
         customerPage.addNewCustomer();
     }
 
-
+    @Test
     public void verifyAndDeleteCustomer () {
         loginPage = new LoginPage(driver);
         //open dashboard page
