@@ -79,5 +79,10 @@ public class CustomerPage {
         Assert.assertTrue(WebUI.checkElementExist(driver,"//span[@class='alert-title']" ));
         System.out.println(driver.findElement(By.xpath("//span[@class='alert-title']")).getText());
     }
-
+    public CustomerDetailPage openCustomerDetail(){
+        WebUI.waitForPageLoaded(driver);
+        driver.findElement(getCustomer).click();
+        WebUI.sleep(1);
+        return new CustomerDetailPage(driver);
+    }
 }

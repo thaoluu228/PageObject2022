@@ -27,4 +27,5 @@ public class DashboardPage {
         WebUI.sleep(1);
         return new ProjectPage(driver);
     }
+
 }
