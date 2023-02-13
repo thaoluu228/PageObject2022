@@ -35,7 +35,9 @@ public class CustomerPage {
         WebUI.waitForPageLoaded(driver);
         driver.findElement(company).sendKeys(COMPANY);
         driver.findElement(vat).sendKeys("123456");
+        //WebUI.sendKeyToElement(driver,vat,"123456");
         driver.findElement(number).sendKeys("03728467");
+        //WebUI.sendKeyToElement(driver,number,"98745727");
         driver.findElement(website).sendKeys("https://cmcglobal.com.vn/vi/home-vi/");
         driver.findElement(group).click();
         WebUI.sleep(1);
@@ -66,15 +68,17 @@ public class CustomerPage {
         Assert.assertEquals(getCustomerName, COMPANY, "Fail. Customer name not match");
     }
     public void deleteCustomer() {
-        WebElement element = driver.findElement(By.xpath("//tbody/tr[1]/td[3]/a"));
-        Actions action = new Actions(driver);
-        action.moveToElement(element).build().perform();
+        //WebElement element = driver.findElement(By.xpath("//tbody/tr[1]/td[3]/a"));
+        //Actions action = new Actions(driver);
+        //action.moveToElement(element).build().perform();
+        WebUI.hoverMouseToElement(driver, By.xpath("//tbody/tr[1]/td[3]/a"));
         WebUI.sleep(2);
         WebUI.waitForElementVisible(driver, By.xpath("//tbody/tr[1]/td[3]/div/a[contains(text(),'Delete')]"));
         driver.findElement(By.xpath("//tbody/tr[1]/td[3]/div/a[contains(text(),'Delete')]")).click();
-        Alert alert = driver.switchTo().alert();
-        WebUI.sleep(2);
-        alert.accept();
+        //Alert alert = driver.switchTo().alert();
+        //WebUI.sleep(2);
+        //alert.accept();
+        WebUI.acceptAlert(driver);
         WebUI.sleep(2);
         Assert.assertTrue(WebUI.checkElementExist(driver,"//span[@class='alert-title']" ));
         System.out.println(driver.findElement(By.xpath("//span[@class='alert-title']")).getText());
