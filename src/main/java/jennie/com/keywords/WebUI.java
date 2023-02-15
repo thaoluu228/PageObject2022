@@ -15,9 +15,10 @@ import java.time.Duration;
 import java.util.List;
 
 public class WebUI {
-    static Actions action;
-    static WebElement element;
-    static Select select;
+    private static Actions action;
+    private static WebElement element;
+    private static Select select;
+    private static int EXPLICIT_WAIT_TIMEOUT = 10;
     public static void sleep (double seconds) {
         try {
             Thread.sleep((long) (1000*seconds));
@@ -26,23 +27,35 @@ public class WebUI {
         }
     }
 
+
     public static void waitForElementVisible (WebDriver driver, By by){
-        try {
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(EXPLICIT_WAIT_TIMEOUT));
+        try{
             wait.until(ExpectedConditions.visibilityOfElementLocated(by));
         } catch (Throwable error){
-            Assert.fail("Timeout waiting for element visible" + by.toString());
+            Assert.fail("Timeout waiting for element visible " + by.toString());
+            System.out.println("Timeout waiting for element visible " + by.toString());
         }
     }
 
     public static void waitForElementPresent (WebDriver driver, By by){
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
-        wait.until(ExpectedConditions.presenceOfElementLocated(by));
+        try {
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(EXPLICIT_WAIT_TIMEOUT));
+            wait.until(ExpectedConditions.presenceOfElementLocated(by));
+        } catch (Throwable error){
+            Assert.fail("Element not exists " + by.toString());
+            System.out.println("Element not exists " + by.toString());
+        }
     }
 
     public static void waitForElementClickable (WebDriver driver, By by){
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
-        wait.until(ExpectedConditions.elementToBeClickable(by));
+        try {
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(EXPLICIT_WAIT_TIMEOUT));
+            wait.until(ExpectedConditions.elementToBeClickable(by));
+        }catch(Throwable error){
+            Assert.fail("Timeout waiting for the element ready to click. " + by.toString());
+            System.out.println("Timeout waiting for the element ready to click. " + by.toString());
+        }
     }
 
     public static Boolean checkElementExist(WebDriver driver, String xpath) {
@@ -79,7 +92,8 @@ public class WebUI {
         waitForPageLoaded(driver);
     }
     public static void clickToElement (WebDriver driver, By by){
-        findElement(driver,by).click();
+        waitForElementVisible(driver, by);
+        findElement(driver, by).click();
     }
     public static void sendKeyToElement (WebDriver driver, By by, String value){
         findElement(driver,by).sendKeys(value);
@@ -101,11 +115,35 @@ public class WebUI {
         select = new Select(element);
         select.selectByVisibleText(value);
     }
+    public static void selectItemInCustomDropdown(WebDriver driver, By parentXpath, By listOptions, String expectedText){
+        findElement(driver, parentXpath).click();
+        List<WebElement> allItems = driver.findElements(listOptions);
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(EXPLICIT_WAIT_TIMEOUT));
+        wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(listOptions));
+        for (WebElement item : allItems){
+            System.out.println("List dropdown: " + item.getText());
+            if(item.getText().equals(expectedText)){
+                item.click();
+                break;
+            }
+        }
+
+    }
     public static void getFirstItemInHTML(WebDriver driver, By by){
         element = findElement(driver, by);
         select = new Select(element);
         select.getFirstSelectedOption();
     }
 
+    public static String getAttribute(WebDriver driver, By by, String attribute){
+        return findElement(driver, by).getAttribute(attribute);
+    }
+
+    public void checkTheCheckbox(WebDriver driver, By by){
+        element = findElement(driver, by);
+        if(!element.isSelected()){
+            element.click();
+        }
+    }
 
 }
