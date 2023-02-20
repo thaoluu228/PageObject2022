@@ -145,5 +145,9 @@ public class WebUI {
             element.click();
         }
     }
+    public static void scrollToElementWithJS(WebDriver driver, By by){
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("arguments[0].scrollIntoView(true);", findElement(driver, by));
+    }
 
 }

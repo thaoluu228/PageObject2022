@@ -89,4 +89,5 @@ public class CustomerPage {
         WebUI.sleep(1);
         return new CustomerDetailPage(driver);
     }
+
 }
