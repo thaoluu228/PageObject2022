@@ -1,8 +1,14 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 
 <suite name="Suite" verbose="1">
-    <test name="Login test">
+    <test name="Login firefox test">
         <parameter name="browser" value="firefox"/>
+        <classes>
+            <class name="jennie.com.testcases.LoginTest" />
+        </classes>
+    </test>
+    <test name="Login chrome test">
+        <parameter name="browser" value="chrome"/>
         <classes>
             <class name="jennie.com.testcases.LoginTest" />
         </classes>
